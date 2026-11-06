@@ -92,7 +92,7 @@ Without this flag the integration test is explicitly skipped, not reported as ve
 
 The CPU model is `sentence-transformers/all-MiniLM-L6-v2` by default. Downloads require Hugging Face and its artifact hosts. Embeddings are cached by model identifier and normalized input text hash, including across server restarts. Model downloads use normal TLS verification; offline failures do not silently switch modes.
 
-**Current cloud limitation:** package installation succeeded, but the Hugging Face model download was denied by the network policy. A draft adds `huggingface.co`, `cas-bridge.xethub.hf.co`, `cas-server.xethub.hf.co`, and `transfer.xethub.hf.co`. Apply these environment settings before retrying. Real sentence-transformer inference remains unverified in this session; lexical grouping is verified.
+**Codex Linux verification history:** package installation succeeded, but the Hugging Face model download was denied by the cloud network policy. A draft adds `huggingface.co`, `cas-bridge.xethub.hf.co`, `cas-server.xethub.hf.co`, and `transfer.xethub.hf.co`; applying those settings is a prerequisite to retrying in that cloud environment. Codex did not verify real sentence-transformer inference there. The user subsequently confirmed successful MiniLM loading, the real integration test, and visible semantic clustering on Windows; see [Windows verification](#windows-verification-user-reported).
 
 ## Optional Gemini or OpenAI
 
@@ -116,7 +116,7 @@ Restart the backend. Settings reports configuration presence, **not proof of liv
 
 Calls time out after 30 seconds each; simultaneous generations are rejected. Gemini requests include responseSchema and a bounded output-token budget. Responses must match a strict Pydantic schema and cite unique supplied complaint IDs. Missing credentials or invalid configuration leave the local workflow available with an explicit status message. Failures show warnings and retain deterministic summaries. Other clusters use deterministic summaries to keep generation bounded. The executive overview always uses calculated backend statistics.
 
-Set `AI_PROVIDER=none` for the fully local workflow. Both adapters have mocked request/response and failure tests, including Gemini responseSchema requests, safety blocks, token truncation, quota errors and invalid evidence. No live generation was performed because credentials and compatible model names were not supplied. Automated evidence-ID checks cannot prove every generated claim: users must review AI hypotheses and recommendations.
+Set `AI_PROVIDER=none` for the fully local workflow. Both adapters have mocked request/response and failure tests, including Gemini responseSchema requests, safety blocks, token truncation, quota errors and invalid evidence. No live generation was performed during Codex’s Linux verification because credentials and compatible model names were not supplied. The user subsequently confirmed a successful Windows generation run with `gemini-3.5-flash-lite`; this is user-reported verification, not a live call executed by Codex. Automated evidence-ID checks cannot prove every generated claim: users must review AI hypotheses and recommendations.
 
 Other configuration:
 
@@ -129,14 +129,33 @@ Other configuration:
 
 ## Tests and evaluation
 
+### Temporary deterministic test settings (Windows PowerShell)
+
+Run from the repository root. Stop any running backend first. Process environment variables override `.env`; changing them does not change an already running backend. These temporary overrides keep real Gemini credentials and model settings in `.env` untouched, and disable the opt-in semantic test for the standard suite.
+
+In the terminal that will run the test backend, save the previous process settings, then run the standard checks:
+
 ```powershell
+$voiceiqTestEnv = @{}
+foreach ($name in @("AI_PROVIDER", "EMBEDDING_MODE", "VOICEIQ_RUN_SEMANTIC")) {
+    $voiceiqTestEnv[$name] = [Environment]::GetEnvironmentVariable($name, "Process")
+}
+$env:AI_PROVIDER = "none"
+$env:EMBEDDING_MODE = "tfidf"
+Remove-Item Env:\VOICEIQ_RUN_SEMANTIC -ErrorAction SilentlyContinue
+
 .\.venv\Scripts\python.exe -m pytest backend\tests -c backend\pytest.ini -q
 npm --prefix frontend test
 npm --prefix frontend run build
-.\.venv\Scripts\python.exe scripts\evaluate.py
 ```
 
-With both servers running and seed data present:
+For Playwright, keep these overrides active and start the backend in that same terminal:
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --no-access-log
+```
+
+Start or keep the frontend running in another terminal with `npm --prefix frontend run dev`. With at least the 2,400 seeded records and analyzed clusters available, run in a third terminal from the repository root:
 
 ```powershell
 Set-Location frontend
@@ -145,9 +164,53 @@ npm run test:e2e
 Set-Location ..
 ```
 
-For an already installed Chromium, set `$env:CHROMIUM_PATH` to its executable before the browser test. The browser test imports one synthetic record (`BROWSER-001`) and deliberately invalid data; repeating it safely reports duplicates. It exercises all seven pages, real dashboard/filter requests, complaint/cluster dialogs, insight generation, CSV upload and background analysis, then captures `docs/dashboard.png`. It requires local no-key settings and at least the 2,400 seeded records.
+For an already installed Chromium, set `$env:CHROMIUM_PATH` to its executable before the browser test. The test imports one synthetic record (`BROWSER-001`) and deliberately invalid data; repeating it safely reports duplicates. It exercises all seven pages, real dashboard/filter requests, complaint/cluster dialogs, insight generation, CSV upload and background analysis, then captures `docs/dashboard.png` locally.
+
+**Persistent side effects:** deterministic Playwright tests rebuild clusters with TF-IDF, invalidate existing insights and generate deterministic replacements in the selected database. Temporary environment overrides do not isolate or roll back database writes. Use a separate `DATABASE_URL` with seeded, analyzed demo data if the current local database must be preserved; use the same database setting for its preparation and test backend. No Windows screenshot or new benchmark is supplied by this documentation update.
+
+### Restore Gemini and MiniLM after testing
+
+Stop the test backend with Ctrl+C. In the same terminal where `$voiceiqTestEnv` was saved, restore the previous process settings (including removal of variables that were originally unset):
+
+```powershell
+foreach ($name in $voiceiqTestEnv.Keys) {
+    [Environment]::SetEnvironmentVariable($name, $voiceiqTestEnv[$name], "Process")
+}
+Remove-Variable voiceiqTestEnv
+```
+
+If that terminal was closed, open a fresh terminal without the temporary overrides. Preserve the existing private API key and ensure the desired non-secret settings in `.env` are:
+
+```dotenv
+AI_PROVIDER=gemini
+GEMINI_MODEL=gemini-3.5-flash-lite
+EMBEDDING_MODE=sentence-transformer
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+```
+
+Process variables take precedence over `.env`; remove any stale test overrides before restarting. Keep `.env`, credentials, databases and downloaded model weights out of Git. The model above is the user-confirmed Windows configuration, not a guarantee of availability for every account.
+
+Restart the backend with the normal startup command. On Upload Data, run analysis and wait for completion to rebuild MiniLM clusters. Then on Product Insights, click Generate insights to regenerate evidence against the new clusters with Gemini configured. Restoring settings alone does not restore the previous clusters or insights. The user confirmed performing this sequence successfully on Windows. The optional real MiniLM test can be run separately with `VOICEIQ_RUN_SEMANTIC=1` as documented above; restore or remove that flag afterward. For a fresh evaluation run, `python scripts/evaluate.py` writes new result files using the active grouping mode; do not confuse these with the preserved Linux measurements below.
 
 Actual measurements are in [data/evaluation/results.json](data/evaluation/results.json); executed checks are recorded in [docs/VERIFICATION.md](docs/VERIFICATION.md). On 112 independent-phrase synthetic examples, category macro-F1 is **0.641**, sentiment macro-F1 **0.922**. These are not real-world or banking-domain validation. Training/demo records use separate sentence templates from evaluation. Review errors before trusting classifications on novel data. Category macro-F1 is unchanged from baseline; sentiment increased from 0.606 to 0.922 using word/character TF-IDF plus independent VADER valence features in a learned Logistic Regression model. A category candidate scored 0.628 and was rejected at the release regression gate. Training data and held-out examples are unchanged; see [ML finalization](docs/ML_FINALIZATION.md) for the selection caveat and full before/after evidence.
+
+## Windows verification (user-reported)
+
+The user confirmed the following local Windows results. Codex did not execute these Windows tests or independently inspect their local outputs; these results supplement the preserved Codex-executed Linux history in [docs/VERIFICATION.md](docs/VERIFICATION.md).
+
+| Check | User-confirmed Windows result |
+| --- | --- |
+| Standard backend pytest suite | 50 passed, 1 skipped, 1 warning |
+| Real MiniLM integration test (separate opt-in run) | 1 passed, 1 warning |
+| Frontend Vitest | 7 passed |
+| Playwright browser workflow | 1 passed in deterministic/TF-IDF test mode |
+| React/TypeScript production build | Passed |
+| CSV upload, complaint search, filters, analytics, evidence views | Manually verified |
+| Real Gemini generation | `gemini-3.5-flash-lite` succeeded; 12 evidence-linked insights reported |
+| Real semantic clustering | `sentence-transformers/all-MiniLM-L6-v2` loaded and verified; clustering visible in the app |
+| Post-test restoration | Gemini insights regenerated after rebuilding MiniLM clusters |
+
+The twelve-insight figure records the reported generation-run total. The implementation still limits external generation to three calls per run and uses deterministic summaries for remaining insights; inspect each insight’s provider/model metadata to identify its generation method. This report does not assert twelve separate Gemini calls or independently verify every row’s provider. No new screenshots, ML scores, latency benchmarks, warning explanations or unreported timings are inferred from the Windows confirmation. OpenAI live generation remains unverified.
 
 ## Demo walkthrough
 
@@ -165,11 +228,11 @@ Actual measurements are in [data/evaluation/results.json](data/evaluation/result
 This is a local portfolio MVP, not production banking software. No authentication, PII detection, regulatory compliance or automatic fraud decisions are claimed. Never expose it publicly or import genuine customer PII without additional controls.
 
 - Synthetic, English-only training is small and template-based; real-data accuracy, negation and mixed-sentiment quality are unproven. Probabilities are not calibrated risk scores.
-- In this cloud run, real semantic embeddings remain blocked by model-host access. Lexical similarity misses paraphrases. Both methods require qualitative review.
-- LLM wording can be wrong despite evidence-ID validation; live providers are unverified.
+- During Codex’s Linux run, model-host access blocked real semantic inference. MiniLM loading, the real integration test and visible clustering were subsequently confirmed by the user on Windows. No new semantic-quality benchmark is claimed; both grouping methods need qualitative review.
+- LLM wording can be wrong despite evidence-ID validation. Gemini live generation is user-confirmed on Windows for `gemini-3.5-flash-lite`; Codex’s own provider checks remain mocked, and OpenAI live generation remains unverified.
 - A single process serializes expensive work. Interrupted jobs are marked failed at restart; completed batches persist and can be retried. A killed process may leave partial classification, but cluster replacement is transactional. Pending records uploaded during a running job need a later analysis. Analysis also refreshes completed records whose model version differs from the currently loaded artifact; restart after training to reload it.
 - Reclustering changes cluster IDs and invalidates insights. Detail responses cap supporting cluster members at 100; the explorer still lists all complaints. Recommendations cover the twelve largest clusters; at most three receive external generation per explicit request.
 - DB schema initialization uses `create_all`; an established deployment needs migrations, durable workers, authentication/RBAC, privacy controls, backups and monitoring.
-- A full browser run was performed on Linux Chromium; Windows commands are documented but were not executed on Windows.
+- Codex executed the browser workflow on Linux Chromium. Windows tests and manual checks above were reported by the user, not executed by Codex.
 
 Source repository: https://github.com/Vamsi0207/voiceiq-ai-feedback-intelligence. Initial source was committed and pushed; finalization adds stronger tests, provider handling and sentiment features. No deployment was performed.
