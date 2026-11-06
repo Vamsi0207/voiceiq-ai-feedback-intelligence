@@ -28,9 +28,9 @@ from app.schemas.contracts import (
 )
 from app.services.ingestion import ingest
 from app.services.analytics import filtered, overview, trends, executive_overview
-from app.services.analysis import analysis_lock, run_analysis
+from app.services.analysis import analysis_lock, run_analysis, pending_condition
 from app.services.insights import generate
-from app.ai.providers import get_provider
+from app.ai.providers import get_provider, configuration_issue
 from app.core.config import settings, ARTIFACTS
 from app.ml.pipeline import load_models
 
@@ -125,9 +125,7 @@ def analyze(db: DB, tasks: BackgroundTasks):
     try:
         job = Job(
             total=db.scalar(
-                select(func.count())
-                .select_from(Complaint)
-                .where(Complaint.processing_status != "completed")
+                select(func.count()).select_from(Complaint).where(pending_condition())
             )
         )
         db.add(job)
@@ -258,9 +256,13 @@ def ai_status():
         embedding_model=settings.embedding_model
         if settings.embedding_mode == "sentence-transformer"
         else "TF-IDF lexical fallback",
-        message="Provider configured; live access is not verified by this status."
+        message=configuration_issue()
+        or "Provider configured; live access is not verified by this status."
         if p
-        else "No LLM configured. Local ML, clustering and deterministic summaries are available.",
+        else (
+            configuration_issue()
+            or "No LLM configured. Local ML, clustering and deterministic summaries are available."
+        ),
     )
 
 

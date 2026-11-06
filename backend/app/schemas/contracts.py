@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class ORMModel(BaseModel):
@@ -70,7 +70,7 @@ class InsightOut(ORMModel):
 
 
 class AIProposal(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", strict=True, str_strip_whitespace=True)
     problem: str = Field(min_length=1, max_length=1500)
     symptoms: str = Field(min_length=1, max_length=1500)
     impact: str = Field(min_length=1, max_length=1500)
@@ -79,6 +79,15 @@ class AIProposal(BaseModel):
     benefit: str = Field(min_length=1, max_length=1000)
     success_metric: str = Field(min_length=1, max_length=500)
     evidence_ids: list[str] = Field(min_length=1, max_length=8)
+
+    @field_validator("evidence_ids")
+    @classmethod
+    def valid_evidence(cls, ids):
+        if any(not value or len(value) > 120 for value in ids) or len(set(ids)) != len(
+            ids
+        ):
+            raise ValueError("Evidence IDs must be nonempty, bounded and unique")
+        return ids
 
 
 class ClusterOut(ORMModel):

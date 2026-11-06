@@ -80,7 +80,17 @@ The default `EMBEDDING_MODE=tfidf` is an honest lexical fallback. To enable Mini
 .\.venv\Scripts\python.exe scripts\download_model.py
 ```
 
-Set `EMBEDDING_MODE=sentence-transformer` in `.env`, restart the backend, and run analysis again to rebuild clusters. The CPU model is `sentence-transformers/all-MiniLM-L6-v2` by default. Downloads require Hugging Face and its artifact hosts. Embeddings are cached by model identifier and normalized input text hash, including across server restarts. Model downloads use normal TLS verification; offline failures do not silently switch modes.
+Set `EMBEDDING_MODE=sentence-transformer` in `.env`, restart the backend, and run analysis again to rebuild clusters. An opt-in real-model integration test is available after downloading the model:
+
+```powershell
+$env:VOICEIQ_RUN_SEMANTIC = "1"
+.\.venv\Scripts\python.exe -m pytest backend\tests\test_semantic_integration.py -c backend\pytest.ini -q
+Remove-Item Env:\VOICEIQ_RUN_SEMANTIC
+```
+
+Without this flag the integration test is explicitly skipped, not reported as verified. It loads only locally cached model files and checks embedding similarity, clustering and cache reuse.
+
+The CPU model is `sentence-transformers/all-MiniLM-L6-v2` by default. Downloads require Hugging Face and its artifact hosts. Embeddings are cached by model identifier and normalized input text hash, including across server restarts. Model downloads use normal TLS verification; offline failures do not silently switch modes.
 
 **Current cloud limitation:** package installation succeeded, but the Hugging Face model download was denied by the network policy. A draft adds `huggingface.co`, `cas-bridge.xethub.hf.co`, `cas-server.xethub.hf.co`, and `transfer.xethub.hf.co`. Apply these environment settings before retrying. Real sentence-transformer inference remains unverified in this session; lexical grouping is verified.
 
@@ -102,9 +112,11 @@ OPENAI_API_KEY=your-key-entered-locally
 OPENAI_MODEL=your-supported-chat-completions-model
 ```
 
-Restart the backend. Settings reports configuration presence, **not proof of live account access**. Click Generate insights to explicitly refresh results. A bounded evidence sample (up to eight IDs/texts per issue, three external calls per generation) goes to the chosen provider. Calls time out after 30 seconds each; simultaneous generations are rejected. Responses must match a Pydantic schema and cite supplied complaint IDs. Failures show warnings and retain deterministic summaries. Other clusters use deterministic summaries to keep generation bounded. The executive overview always uses calculated backend statistics.
+Restart the backend. Settings reports configuration presence, **not proof of live account access**. Click Generate insights to explicitly refresh results. A bounded evidence sample (up to eight IDs/texts per issue, three external calls per generation) goes to the chosen provider. Configured models must support Gemini generateContent with JSON responseSchema, or OpenAI Chat Completions with JSON-object responses, respectively. No default model is assumed; unsupported models report a sanitized error and fall back. On restricted cloud networks, allow generativelanguage.googleapis.com for Gemini or api.openai.com for OpenAI before a live call.
 
-Set `AI_PROVIDER=none` for the fully local workflow. Both adapters have mocked request/response and failure tests. No live generation was performed because credentials and compatible model names were not supplied. Automated evidence-ID checks cannot prove every generated claim: users must review AI hypotheses and recommendations.
+Calls time out after 30 seconds each; simultaneous generations are rejected. Gemini requests include responseSchema and a bounded output-token budget. Responses must match a strict Pydantic schema and cite unique supplied complaint IDs. Missing credentials or invalid configuration leave the local workflow available with an explicit status message. Failures show warnings and retain deterministic summaries. Other clusters use deterministic summaries to keep generation bounded. The executive overview always uses calculated backend statistics.
+
+Set `AI_PROVIDER=none` for the fully local workflow. Both adapters have mocked request/response and failure tests, including Gemini responseSchema requests, safety blocks, token truncation, quota errors and invalid evidence. No live generation was performed because credentials and compatible model names were not supplied. Automated evidence-ID checks cannot prove every generated claim: users must review AI hypotheses and recommendations.
 
 Other configuration:
 
@@ -135,7 +147,7 @@ Set-Location ..
 
 For an already installed Chromium, set `$env:CHROMIUM_PATH` to its executable before the browser test. The browser test imports one synthetic record (`BROWSER-001`) and deliberately invalid data; repeating it safely reports duplicates. It exercises all seven pages, real dashboard/filter requests, complaint/cluster dialogs, insight generation, CSV upload and background analysis, then captures `docs/dashboard.png`. It requires local no-key settings and at least the 2,400 seeded records.
 
-Actual measurements are in [data/evaluation/results.json](data/evaluation/results.json); executed checks are recorded in [docs/VERIFICATION.md](docs/VERIFICATION.md). On 112 independent-phrase synthetic examples, category macro-F1 is **0.641**, sentiment macro-F1 **0.606**. These are not real-world or banking-domain validation. Training/demo records use separate sentence templates from evaluation. Review errors before trusting classifications on novel data.
+Actual measurements are in [data/evaluation/results.json](data/evaluation/results.json); executed checks are recorded in [docs/VERIFICATION.md](docs/VERIFICATION.md). On 112 independent-phrase synthetic examples, category macro-F1 is **0.641**, sentiment macro-F1 **0.922**. These are not real-world or banking-domain validation. Training/demo records use separate sentence templates from evaluation. Review errors before trusting classifications on novel data. Category macro-F1 is unchanged from baseline; sentiment increased from 0.606 to 0.922 using word/character TF-IDF plus independent VADER valence features in a learned Logistic Regression model. A category candidate scored 0.628 and was rejected at the release regression gate. Training data and held-out examples are unchanged; see [ML finalization](docs/ML_FINALIZATION.md) for the selection caveat and full before/after evidence.
 
 ## Demo walkthrough
 
@@ -155,9 +167,9 @@ This is a local portfolio MVP, not production banking software. No authenticatio
 - Synthetic, English-only training is small and template-based; real-data accuracy, negation and mixed-sentiment quality are unproven. Probabilities are not calibrated risk scores.
 - In this cloud run, real semantic embeddings remain blocked by model-host access. Lexical similarity misses paraphrases. Both methods require qualitative review.
 - LLM wording can be wrong despite evidence-ID validation; live providers are unverified.
-- A single process serializes expensive work. Interrupted jobs are marked failed at restart; completed batches persist and can be retried. A killed process may leave partial classification, but cluster replacement is transactional. Pending records uploaded during a running job need a later analysis.
+- A single process serializes expensive work. Interrupted jobs are marked failed at restart; completed batches persist and can be retried. A killed process may leave partial classification, but cluster replacement is transactional. Pending records uploaded during a running job need a later analysis. Analysis also refreshes completed records whose model version differs from the currently loaded artifact; restart after training to reload it.
 - Reclustering changes cluster IDs and invalidates insights. Detail responses cap supporting cluster members at 100; the explorer still lists all complaints. Recommendations cover the twelve largest clusters; at most three receive external generation per explicit request.
 - DB schema initialization uses `create_all`; an established deployment needs migrations, durable workers, authentication/RBAC, privacy controls, backups and monitoring.
 - A full browser run was performed on Linux Chromium; Windows commands are documented but were not executed on Windows.
 
-No remote push or deployment was performed.
+Source repository: https://github.com/Vamsi0207/voiceiq-ai-feedback-intelligence. Initial source was committed and pushed; finalization adds stronger tests, provider handling and sentiment features. No deployment was performed.

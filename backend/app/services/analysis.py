@@ -1,7 +1,7 @@
 import logging
 from collections import Counter
 from threading import Lock
-from sqlalchemy import select, update, delete
+from sqlalchemy import select, update, delete, or_
 from app.database.session import SessionLocal
 from app.models.entities import (
     Complaint,
@@ -10,7 +10,7 @@ from app.models.entities import (
     Job,
     utcnow,
 )
-from app.ml.pipeline import predict, group
+from app.ml.pipeline import predict, group, load_models
 
 logger = logging.getLogger("voiceiq.analysis")
 analysis_lock = Lock()
@@ -48,6 +48,15 @@ def rebuild_clusters(db):
     db.commit()
 
 
+def pending_condition():
+    version = load_models()["version"]
+    return or_(
+        Complaint.processing_status != "completed",
+        Complaint.model_version.is_(None),
+        Complaint.model_version != version,
+    )
+
+
 def run_analysis(job_id):
     try:
         with SessionLocal() as db:
@@ -55,9 +64,7 @@ def run_analysis(job_id):
             job.status = "running"
             db.commit()
             rows = db.scalars(
-                select(Complaint)
-                .where(Complaint.processing_status != "completed")
-                .order_by(Complaint.id)
+                select(Complaint).where(pending_condition()).order_by(Complaint.id)
             ).all()
             job.total = len(rows)
             db.commit()

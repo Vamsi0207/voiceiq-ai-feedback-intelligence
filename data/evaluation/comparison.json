@@ -1,0 +1,333 @@
+{
+  "heldout_sha256": "c8680baf9ce0d1a384b0d8e0bf84d97f795cb3ce0c08c82a5e881fa0a9de09bc",
+  "training_unchanged": true,
+  "selection": "Candidate evaluated after grouped training validation. Frozen heldout used as release regression gate: retain baseline category, release improved sentiment. No subsequent parameter tuning or heldout examples added to training.",
+  "metrics": {
+    "category": {
+      "accuracy": {
+        "before": 0.6339285714285714,
+        "after": 0.6339285714285714,
+        "delta": 0.0
+      },
+      "macro_precision": {
+        "before": 0.6903230176256492,
+        "after": 0.6903230176256492,
+        "delta": 0.0
+      },
+      "macro_recall": {
+        "before": 0.6339285714285714,
+        "after": 0.6339285714285714,
+        "delta": 0.0
+      },
+      "macro_f1": {
+        "before": 0.640584894269942,
+        "after": 0.640584894269942,
+        "delta": 0.0
+      }
+    },
+    "sentiment": {
+      "accuracy": {
+        "before": 0.6160714285714286,
+        "after": 0.9553571428571429,
+        "delta": 0.3392857142857143
+      },
+      "macro_precision": {
+        "before": 0.6291850073362678,
+        "after": 0.9685534591194968,
+        "delta": 0.33936845178322894
+      },
+      "macro_recall": {
+        "before": 0.5902777777777778,
+        "after": 0.8958333333333334,
+        "delta": 0.3055555555555556
+      },
+      "macro_f1": {
+        "before": 0.6055548117403787,
+        "after": 0.9217699547732551,
+        "delta": 0.31621514303287634
+      }
+    }
+  },
+  "errors": {
+    "category": [
+      {
+        "complaint_id": "EVAL-0-0-Negative-0",
+        "actual": "UPI & Payments",
+        "predicted": "Customer Support",
+        "text": "The recipient got nothing although my wallet was debited after scanning a QR code. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-0-0-Neutral-0",
+        "actual": "UPI & Payments",
+        "predicted": "Account Access",
+        "text": "The recipient got nothing although my wallet was debited after scanning a QR code. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-0-0-Neutral-1",
+        "actual": "UPI & Payments",
+        "predicted": "Account Access",
+        "text": "The recipient got nothing although my wallet was debited after scanning a QR code. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-0-2-Negative-0",
+        "actual": "UPI & Payments",
+        "predicted": "Customer Support",
+        "text": "Reversing the failed remittance has taken a week. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-0-2-Neutral-0",
+        "actual": "UPI & Payments",
+        "predicted": "Account Access",
+        "text": "Reversing the failed remittance has taken a week. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-0-2-Neutral-1",
+        "actual": "UPI & Payments",
+        "predicted": "Credit Cards",
+        "text": "Reversing the failed remittance has taken a week. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-1-2-Negative-0",
+        "actual": "Credit Cards",
+        "predicted": "Fraud & Security",
+        "text": "I need to contest an entry on my Visa bill. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-1-2-Negative-1",
+        "actual": "Credit Cards",
+        "predicted": "Fraud & Security",
+        "text": "I need to contest an entry on my Visa bill. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-1-2-Neutral-0",
+        "actual": "Credit Cards",
+        "predicted": "Account Access",
+        "text": "I need to contest an entry on my Visa bill. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-1-2-Neutral-1",
+        "actual": "Credit Cards",
+        "predicted": "Fraud & Security",
+        "text": "I need to contest an entry on my Visa bill. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-2-0-Negative-0",
+        "actual": "Account Access",
+        "predicted": "Customer Support",
+        "text": "Signing in asks for a verification code that never comes. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-2-0-Negative-1",
+        "actual": "Account Access",
+        "predicted": "Other",
+        "text": "Signing in asks for a verification code that never comes. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-2-0-Neutral-1",
+        "actual": "Account Access",
+        "predicted": "Other",
+        "text": "Signing in asks for a verification code that never comes. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-2-2-Negative-0",
+        "actual": "Account Access",
+        "predicted": "Fraud & Security",
+        "text": "I have been shut out of the account despite valid credentials. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-2-2-Negative-1",
+        "actual": "Account Access",
+        "predicted": "Fraud & Security",
+        "text": "I have been shut out of the account despite valid credentials. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-3-1-Negative-0",
+        "actual": "Mobile Banking",
+        "predicted": "Customer Support",
+        "text": "The Android banking screen becomes unresponsive after opening. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-3-1-Neutral-0",
+        "actual": "Mobile Banking",
+        "predicted": "Account Access",
+        "text": "The Android banking screen becomes unresponsive after opening. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-4-0-Neutral-0",
+        "actual": "Loans",
+        "predicted": "Account Access",
+        "text": "My mortgage installment exceeded the agreed repayment amount. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-4-0-Neutral-1",
+        "actual": "Loans",
+        "predicted": "Credit Cards",
+        "text": "My mortgage installment exceeded the agreed repayment amount. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-4-1-Negative-0",
+        "actual": "Loans",
+        "predicted": "Customer Support",
+        "text": "The borrowing application has sat with underwriting for weeks. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-4-1-Negative-1",
+        "actual": "Loans",
+        "predicted": "Customer Support",
+        "text": "The borrowing application has sat with underwriting for weeks. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-4-1-Neutral-0",
+        "actual": "Loans",
+        "predicted": "Account Access",
+        "text": "The borrowing application has sat with underwriting for weeks. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-4-1-Neutral-1",
+        "actual": "Loans",
+        "predicted": "Mobile Banking",
+        "text": "The borrowing application has sat with underwriting for weeks. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-5-0-Negative-0",
+        "actual": "Customer Support",
+        "predicted": "Other",
+        "text": "Nobody at the contact centre answers my follow up messages. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-5-0-Negative-1",
+        "actual": "Customer Support",
+        "predicted": "Other",
+        "text": "Nobody at the contact centre answers my follow up messages. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-5-0-Neutral-0",
+        "actual": "Customer Support",
+        "predicted": "Account Access",
+        "text": "Nobody at the contact centre answers my follow up messages. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-5-0-Neutral-1",
+        "actual": "Customer Support",
+        "predicted": "Other",
+        "text": "Nobody at the contact centre answers my follow up messages. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-5-1-Negative-1",
+        "actual": "Customer Support",
+        "predicted": "UPI & Payments",
+        "text": "An adviser marked my case solved before investigating. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-5-1-Neutral-0",
+        "actual": "Customer Support",
+        "predicted": "Account Access",
+        "text": "An adviser marked my case solved before investigating. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-5-1-Neutral-1",
+        "actual": "Customer Support",
+        "predicted": "Credit Cards",
+        "text": "An adviser marked my case solved before investigating. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-5-3-Positive-0",
+        "actual": "Customer Support",
+        "predicted": "Fraud & Security",
+        "text": "The helpdesk adviser explained everything patiently. Delighted with how well everything went."
+      },
+      {
+        "complaint_id": "EVAL-5-3-Positive-1",
+        "actual": "Customer Support",
+        "predicted": "Fraud & Security",
+        "text": "The helpdesk adviser explained everything patiently. Wonderful assistance; you made my day."
+      },
+      {
+        "complaint_id": "EVAL-6-0-Negative-0",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A stranger used my credentials to withdraw my savings. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-6-0-Negative-1",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A stranger used my credentials to withdraw my savings. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-6-0-Neutral-0",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A stranger used my credentials to withdraw my savings. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-6-0-Neutral-1",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A stranger used my credentials to withdraw my savings. This is a request for clarification."
+      },
+      {
+        "complaint_id": "EVAL-6-1-Neutral-0",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "I spotted a debit from an unknown location and fear identity theft. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-6-2-Negative-0",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A caller impersonating the bank persuaded me to share a code. This has been awful; I regret trusting this service."
+      },
+      {
+        "complaint_id": "EVAL-6-2-Negative-1",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A caller impersonating the bank persuaded me to share a code. Such a miserable experience, I am furious."
+      },
+      {
+        "complaint_id": "EVAL-6-2-Neutral-0",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A caller impersonating the bank persuaded me to share a code. I would like to know what happens next."
+      },
+      {
+        "complaint_id": "EVAL-6-2-Neutral-1",
+        "actual": "Fraud & Security",
+        "predicted": "Account Access",
+        "text": "A caller impersonating the bank persuaded me to share a code. This is a request for clarification."
+      }
+    ],
+    "sentiment": [
+      {
+        "complaint_id": "EVAL-0-3-Positive-1",
+        "actual": "Positive",
+        "predicted": "Neutral",
+        "text": "Paying the vendor through UPI was effortless. Wonderful assistance; you made my day."
+      },
+      {
+        "complaint_id": "EVAL-2-3-Positive-1",
+        "actual": "Positive",
+        "predicted": "Neutral",
+        "text": "Regaining access to my profile was straightforward. Wonderful assistance; you made my day."
+      },
+      {
+        "complaint_id": "EVAL-4-3-Positive-1",
+        "actual": "Positive",
+        "predicted": "Neutral",
+        "text": "The lender sanctioned my mortgage ahead of schedule. Wonderful assistance; you made my day."
+      },
+      {
+        "complaint_id": "EVAL-5-3-Positive-1",
+        "actual": "Positive",
+        "predicted": "Neutral",
+        "text": "The helpdesk adviser explained everything patiently. Wonderful assistance; you made my day."
+      },
+      {
+        "complaint_id": "EVAL-6-3-Positive-1",
+        "actual": "Positive",
+        "predicted": "Neutral",
+        "text": "The scam alert prevented an unauthorized withdrawal. Wonderful assistance; you made my day."
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 import math
 from sqlalchemy import select, func, delete
 from app.models.entities import ComplaintCluster, Complaint, GeneratedInsight
-from app.ai.providers import get_provider
+from app.ai.providers import get_provider, ProviderError
 
 SEVERITY = {"Low": 1, "Medium": 2, "High": 3, "Critical": 4}
 SOLUTIONS = {
@@ -109,7 +109,7 @@ def generate(db, force=False):
                 )
             except Exception as exc:
                 warnings.append(
-                    f"{provider.name} generation failed ({type(exc).__name__}); deterministic evidence summary retained."
+                    f"{provider.name} generation failed ({exc.code if isinstance(exc, ProviderError) else type(exc).__name__}); deterministic evidence summary retained."
                 )
         results.append(GeneratedInsight(**result))
     db.execute(delete(GeneratedInsight))

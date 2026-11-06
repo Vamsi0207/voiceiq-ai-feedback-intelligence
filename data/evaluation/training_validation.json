@@ -1,0 +1,43 @@
+{
+  "method": "3-fold grouped training-only validation, fixed model specification; heldout not loaded",
+  "results": {
+    "category": {
+      "baseline": {
+        "fold_macro_f1": [
+          0.6118070973677561,
+          0.7130967091824553,
+          0.37371745787875993
+        ],
+        "mean_macro_f1": 0.5662070881429905
+      },
+      "candidate": {
+        "fold_macro_f1": [
+          0.7258938875827461,
+          0.6437750297637296,
+          0.5307439343584708
+        ],
+        "mean_macro_f1": 0.6334709505683155
+      },
+      "selected": "candidate"
+    },
+    "sentiment": {
+      "baseline": {
+        "fold_macro_f1": [
+          0.3328950252027175,
+          0.6161943319838056,
+          0.4160972746702694
+        ],
+        "mean_macro_f1": 0.4550622106189308
+      },
+      "candidate": {
+        "fold_macro_f1": [
+          1.0,
+          0.7861891359390721,
+          1.0
+        ],
+        "mean_macro_f1": 0.9287297119796908
+      },
+      "selected": "candidate"
+    }
+  }
+}

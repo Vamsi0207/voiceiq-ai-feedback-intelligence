@@ -55,7 +55,7 @@ export function Settings() {
                 </div>
                 <div>
                   <dt>Sentiment</dt>
-                  <dd>Locally trained Logistic Regression</dd>
+                  <dd>Word/character TF-IDF + VADER + Logistic Regression</dd>
                 </div>
                 <div>
                   <dt>Urgency</dt>

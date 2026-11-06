@@ -6,11 +6,10 @@ import re
 import joblib
 import numpy as np
 import pandas as pd
-from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
 from sklearn.cluster import DBSCAN
 from app.core.config import ROOT, ARTIFACTS, settings
+from app.ml.features import build_classifier, FEATURE_VERSION
 
 MODEL = ARTIFACTS / "classifiers.joblib"
 
@@ -20,25 +19,25 @@ def train():
     df = pd.read_csv(path)
     models = {}
     for label in ["category", "sentiment"]:
-        pipe = Pipeline(
-            [
-                (
-                    "tfidf",
-                    TfidfVectorizer(
-                        ngram_range=(1, 2), sublinear_tf=True, max_features=18000
-                    ),
-                ),
-                (
-                    "classifier",
-                    LogisticRegression(
-                        class_weight="balanced", max_iter=1000, random_state=42
-                    ),
-                ),
-            ]
-        )
+        pipe = build_classifier(label, improved=(label == "sentiment"))
         pipe.fit(df.complaint_text, df[label])
         models[label] = pipe
-    models["version"] = hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+    signature = (
+        path.read_bytes()
+        + (ROOT / "backend/app/ml/features.py").read_bytes()
+        + FEATURE_VERSION.encode()
+        + b"category=baseline;sentiment=candidate"
+    )
+    models["version"] = hashlib.sha256(signature).hexdigest()[:16]
+    models["training_metadata"] = {
+        "feature_version": FEATURE_VERSION,
+        "training_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "training_records": len(df),
+        "selected_features": {
+            "category": "baseline-word",
+            "sentiment": "word-char-vader",
+        },
+    }
     joblib.dump(models, MODEL)
     load_models.cache_clear()
     return models

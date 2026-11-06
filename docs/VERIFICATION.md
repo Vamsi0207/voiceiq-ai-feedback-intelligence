@@ -6,12 +6,12 @@ Executed 6 November 2026 on Linux, Python 3.12.14, Node.js 24.22.1, npm 11.9.0. 
 
 | Check | Actual result |
 | --- | --- |
-| `python -m pytest backend/tests -c backend/pytest.ini -q` | 24 passed, one dependency deprecation warning |
+| `python -m pytest backend/tests -c backend/pytest.ini -q` | 50 passed, 1 explicit semantic-model skip, one dependency deprecation warning |
 | `npm --prefix frontend test` | 7 passed |
 | `npm --prefix frontend run build` | TypeScript and Vite production build passed; chart/vendor chunks separated |
 | `CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e` from frontend | 1 complete real-browser workflow passed |
 | `python scripts/generate_data.py` | 2,400 training/demo rows and 112 held-out rows generated |
-| `python scripts/train.py` | Both classifiers trained and saved; model version `331702d01328ef90` |
+| `python scripts/train.py` | Both classifiers trained and saved; model version `a100fa23057222b9` |
 | `python scripts/seed.py`, repeated | First import 2,400; repeat imported 0, duplicate count 2,400; uploaded browser record retained |
 | `python scripts/evaluate.py` | Actual metrics persisted to artifacts/evaluation.json and data/evaluation/results.json |
 | `python -m pip check` | No broken requirements |
@@ -29,12 +29,12 @@ Frontend tests cover dashboard metrics, API errors, navigation, server filter/se
 
 | Metric | Category | Sentiment |
 | --- | --- | --- |
-| Accuracy | 0.6339 | 0.6161 |
-| Macro precision | 0.6903 | 0.6292 |
-| Macro recall | 0.6339 | 0.5903 |
-| Macro F1 | 0.6406 | 0.6056 |
+| Accuracy | 0.6339 | 0.9554 |
+| Macro precision | 0.6903 | 0.9686 |
+| Macro recall | 0.6339 | 0.8958 |
+| Macro F1 | 0.6406 | 0.9218 |
 
-Lexical clustering diagnostic on 300 fixed-seed samples: 39 groups, 146 noise records, cosine silhouette 0.5852 on non-noise records. This is not a semantic-retrieval quality score. Per-class reports, confusion matrices and actual grouped examples are in the machine-readable results. These modest synthetic scores are reported honestly; real-world banking accuracy remains unproven.
+Lexical clustering diagnostic on 300 fixed-seed samples: 39 groups, 146 noise records, cosine silhouette 0.5852 on non-noise records. This is not a semantic-retrieval quality score. Per-class reports, confusion matrices and actual grouped examples are in the machine-readable results. Baseline category macro-F1 0.6406 is retained; sentiment macro-F1 improved from 0.6056 to 0.9218. The word/character category candidate regressed to 0.6280 and was rejected, without further tuning against the held-out set. See ML_FINALIZATION.md, baseline.json, candidate_results.json, training_validation.json and comparison.json. These synthetic scores are reported honestly; real-world banking accuracy remains unproven.
 
 ## External limits and unverified behavior
 
@@ -48,4 +48,14 @@ Lexical clustering diagnostic on 300 fixed-seed samples: 39 groups, 146 noise re
 
 Draft saves were confirmed for `install_script`, `start_skill`, and four explicit model-host domains: huggingface.co, cas-bridge.xethub.hf.co, cas-server.xethub.hf.co, transfer.xethub.hf.co. Existing package-manager presets were preserved. No secret values were saved or exposed. The running policy still has no custom hosts, so the model-host change is not applied yet. Review/save the draft in environment settings, then publish the prepared environment. Publication and restoration into a fresh task were not performed or verified.
 
-No remote push, Git commit, deployment, or production readiness claim was made. All project files are present in the original checkout; generated dependencies, database and model artifacts remain ignored.
+Initial source was committed and pushed to origin/main as 0ec5970. The remote was empty before the initial push. Final changes are verified before a normal fast-forward push; the final response reports the pushed SHA. Compare git rev-parse HEAD with git ls-remote origin refs/heads/main. No deployment or production readiness is claimed. Generated dependencies, databases, credentials, virtual environments and model files remain ignored.
+
+## Finalization checks
+
+The original source was published before further work. Ignore checks covered root/backend/frontend env files, virtual environments, SQLite files, private keys, joblib, NumPy arrays and neural artifacts. A credential-pattern scan found no source credential matches; no values were printed. Git attributes preserve the held-out CSV bytes, including its existing CRLF line endings.
+
+Hugging Face was rechecked through the configured proxy on 6 November 2026 and still returned HTTP 403 at CONNECT. This is a policy denial, not evidence of a broken model. The opt-in real integration test remains skipped in the ordinary suite. Its embedding/grouping assertions have not executed against MiniLM.
+
+Gemini review verified request auth placement, explicit model handling, structured schema, complete bounded prompts, multipart text responses, excluded thought parts, strict output/evidence validation, invalid JSON, safety blocks, token truncation, HTTP 400/401/403/404/429/503 and timeout handling. Errors do not expose provider bodies. No provider key/model is set in this environment; no authenticated provider request succeeded or was claimed. Live compatibility with an account/model remains unverified. Gemini also requires generativelanguage.googleapis.com in restricted environment network settings.
+
+Backend tests additionally cover dataset immutability, independent sentiment/negation features, model provenance and reprocessing after model upgrades. The final model records its training hash, feature version and selected feature sets. Training/demo CSV and held-out CSV are unchanged from the initial source commit.
