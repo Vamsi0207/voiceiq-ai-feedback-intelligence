@@ -1,0 +1,113 @@
+complaint_id,complaint_text,category,sentiment
+EVAL-0-0-Negative-0,The recipient got nothing although my wallet was debited after scanning a QR code. This has been awful; I regret trusting this service.,UPI & Payments,Negative
+EVAL-0-0-Negative-1,"The recipient got nothing although my wallet was debited after scanning a QR code. Such a miserable experience, I am furious.",UPI & Payments,Negative
+EVAL-0-0-Neutral-0,The recipient got nothing although my wallet was debited after scanning a QR code. I would like to know what happens next.,UPI & Payments,Neutral
+EVAL-0-0-Neutral-1,The recipient got nothing although my wallet was debited after scanning a QR code. This is a request for clarification.,UPI & Payments,Neutral
+EVAL-0-1-Negative-0,A transfer through UPI vanished before reaching the shopkeeper. This has been awful; I regret trusting this service.,UPI & Payments,Negative
+EVAL-0-1-Negative-1,"A transfer through UPI vanished before reaching the shopkeeper. Such a miserable experience, I am furious.",UPI & Payments,Negative
+EVAL-0-1-Neutral-0,A transfer through UPI vanished before reaching the shopkeeper. I would like to know what happens next.,UPI & Payments,Neutral
+EVAL-0-1-Neutral-1,A transfer through UPI vanished before reaching the shopkeeper. This is a request for clarification.,UPI & Payments,Neutral
+EVAL-0-2-Negative-0,Reversing the failed remittance has taken a week. This has been awful; I regret trusting this service.,UPI & Payments,Negative
+EVAL-0-2-Negative-1,"Reversing the failed remittance has taken a week. Such a miserable experience, I am furious.",UPI & Payments,Negative
+EVAL-0-2-Neutral-0,Reversing the failed remittance has taken a week. I would like to know what happens next.,UPI & Payments,Neutral
+EVAL-0-2-Neutral-1,Reversing the failed remittance has taken a week. This is a request for clarification.,UPI & Payments,Neutral
+EVAL-0-3-Positive-0,Paying the vendor through UPI was effortless. Delighted with how well everything went.,UPI & Payments,Positive
+EVAL-0-3-Positive-1,Paying the vendor through UPI was effortless. Wonderful assistance; you made my day.,UPI & Payments,Positive
+EVAL-1-0-Negative-0,Two identical purchases appeared on my credit statement. This has been awful; I regret trusting this service.,Credit Cards,Negative
+EVAL-1-0-Negative-1,"Two identical purchases appeared on my credit statement. Such a miserable experience, I am furious.",Credit Cards,Negative
+EVAL-1-0-Neutral-0,Two identical purchases appeared on my credit statement. I would like to know what happens next.,Credit Cards,Neutral
+EVAL-1-0-Neutral-1,Two identical purchases appeared on my credit statement. This is a request for clarification.,Credit Cards,Neutral
+EVAL-1-1-Negative-0,The revolving credit facility added an unexplained annual fee. This has been awful; I regret trusting this service.,Credit Cards,Negative
+EVAL-1-1-Negative-1,"The revolving credit facility added an unexplained annual fee. Such a miserable experience, I am furious.",Credit Cards,Negative
+EVAL-1-1-Neutral-0,The revolving credit facility added an unexplained annual fee. I would like to know what happens next.,Credit Cards,Neutral
+EVAL-1-1-Neutral-1,The revolving credit facility added an unexplained annual fee. This is a request for clarification.,Credit Cards,Neutral
+EVAL-1-2-Negative-0,I need to contest an entry on my Visa bill. This has been awful; I regret trusting this service.,Credit Cards,Negative
+EVAL-1-2-Negative-1,"I need to contest an entry on my Visa bill. Such a miserable experience, I am furious.",Credit Cards,Negative
+EVAL-1-2-Neutral-0,I need to contest an entry on my Visa bill. I would like to know what happens next.,Credit Cards,Neutral
+EVAL-1-2-Neutral-1,I need to contest an entry on my Visa bill. This is a request for clarification.,Credit Cards,Neutral
+EVAL-1-3-Positive-0,My card rewards were credited exactly as promised. Delighted with how well everything went.,Credit Cards,Positive
+EVAL-1-3-Positive-1,My card rewards were credited exactly as promised. Wonderful assistance; you made my day.,Credit Cards,Positive
+EVAL-2-0-Negative-0,Signing in asks for a verification code that never comes. This has been awful; I regret trusting this service.,Account Access,Negative
+EVAL-2-0-Negative-1,"Signing in asks for a verification code that never comes. Such a miserable experience, I am furious.",Account Access,Negative
+EVAL-2-0-Neutral-0,Signing in asks for a verification code that never comes. I would like to know what happens next.,Account Access,Neutral
+EVAL-2-0-Neutral-1,Signing in asks for a verification code that never comes. This is a request for clarification.,Account Access,Neutral
+EVAL-2-1-Negative-0,The reset password email leads to an expired page. This has been awful; I regret trusting this service.,Account Access,Negative
+EVAL-2-1-Negative-1,"The reset password email leads to an expired page. Such a miserable experience, I am furious.",Account Access,Negative
+EVAL-2-1-Neutral-0,The reset password email leads to an expired page. I would like to know what happens next.,Account Access,Neutral
+EVAL-2-1-Neutral-1,The reset password email leads to an expired page. This is a request for clarification.,Account Access,Neutral
+EVAL-2-2-Negative-0,I have been shut out of the account despite valid credentials. This has been awful; I regret trusting this service.,Account Access,Negative
+EVAL-2-2-Negative-1,"I have been shut out of the account despite valid credentials. Such a miserable experience, I am furious.",Account Access,Negative
+EVAL-2-2-Neutral-0,I have been shut out of the account despite valid credentials. I would like to know what happens next.,Account Access,Neutral
+EVAL-2-2-Neutral-1,I have been shut out of the account despite valid credentials. This is a request for clarification.,Account Access,Neutral
+EVAL-2-3-Positive-0,Regaining access to my profile was straightforward. Delighted with how well everything went.,Account Access,Positive
+EVAL-2-3-Positive-1,Regaining access to my profile was straightforward. Wonderful assistance; you made my day.,Account Access,Positive
+EVAL-3-0-Negative-0,Every launch of the banking application ends with a blank display. This has been awful; I regret trusting this service.,Mobile Banking,Negative
+EVAL-3-0-Negative-1,"Every launch of the banking application ends with a blank display. Such a miserable experience, I am furious.",Mobile Banking,Negative
+EVAL-3-0-Neutral-0,Every launch of the banking application ends with a blank display. I would like to know what happens next.,Mobile Banking,Neutral
+EVAL-3-0-Neutral-1,Every launch of the banking application ends with a blank display. This is a request for clarification.,Mobile Banking,Neutral
+EVAL-3-1-Negative-0,The Android banking screen becomes unresponsive after opening. This has been awful; I regret trusting this service.,Mobile Banking,Negative
+EVAL-3-1-Negative-1,"The Android banking screen becomes unresponsive after opening. Such a miserable experience, I am furious.",Mobile Banking,Negative
+EVAL-3-1-Neutral-0,The Android banking screen becomes unresponsive after opening. I would like to know what happens next.,Mobile Banking,Neutral
+EVAL-3-1-Neutral-1,The Android banking screen becomes unresponsive after opening. This is a request for clarification.,Mobile Banking,Neutral
+EVAL-3-2-Negative-0,Since the release my phone banking interface stops responding. This has been awful; I regret trusting this service.,Mobile Banking,Negative
+EVAL-3-2-Negative-1,"Since the release my phone banking interface stops responding. Such a miserable experience, I am furious.",Mobile Banking,Negative
+EVAL-3-2-Neutral-0,Since the release my phone banking interface stops responding. I would like to know what happens next.,Mobile Banking,Neutral
+EVAL-3-2-Neutral-1,Since the release my phone banking interface stops responding. This is a request for clarification.,Mobile Banking,Neutral
+EVAL-3-3-Positive-0,The latest mobile interface runs beautifully. Delighted with how well everything went.,Mobile Banking,Positive
+EVAL-3-3-Positive-1,The latest mobile interface runs beautifully. Wonderful assistance; you made my day.,Mobile Banking,Positive
+EVAL-4-0-Negative-0,My mortgage installment exceeded the agreed repayment amount. This has been awful; I regret trusting this service.,Loans,Negative
+EVAL-4-0-Negative-1,"My mortgage installment exceeded the agreed repayment amount. Such a miserable experience, I am furious.",Loans,Negative
+EVAL-4-0-Neutral-0,My mortgage installment exceeded the agreed repayment amount. I would like to know what happens next.,Loans,Neutral
+EVAL-4-0-Neutral-1,My mortgage installment exceeded the agreed repayment amount. This is a request for clarification.,Loans,Neutral
+EVAL-4-1-Negative-0,The borrowing application has sat with underwriting for weeks. This has been awful; I regret trusting this service.,Loans,Negative
+EVAL-4-1-Negative-1,"The borrowing application has sat with underwriting for weeks. Such a miserable experience, I am furious.",Loans,Negative
+EVAL-4-1-Neutral-0,The borrowing application has sat with underwriting for weeks. I would like to know what happens next.,Loans,Neutral
+EVAL-4-1-Neutral-1,The borrowing application has sat with underwriting for weeks. This is a request for clarification.,Loans,Neutral
+EVAL-4-2-Negative-0,Interest on the personal loan differs from the signed contract. This has been awful; I regret trusting this service.,Loans,Negative
+EVAL-4-2-Negative-1,"Interest on the personal loan differs from the signed contract. Such a miserable experience, I am furious.",Loans,Negative
+EVAL-4-2-Neutral-0,Interest on the personal loan differs from the signed contract. I would like to know what happens next.,Loans,Neutral
+EVAL-4-2-Neutral-1,Interest on the personal loan differs from the signed contract. This is a request for clarification.,Loans,Neutral
+EVAL-4-3-Positive-0,The lender sanctioned my mortgage ahead of schedule. Delighted with how well everything went.,Loans,Positive
+EVAL-4-3-Positive-1,The lender sanctioned my mortgage ahead of schedule. Wonderful assistance; you made my day.,Loans,Positive
+EVAL-5-0-Negative-0,Nobody at the contact centre answers my follow up messages. This has been awful; I regret trusting this service.,Customer Support,Negative
+EVAL-5-0-Negative-1,"Nobody at the contact centre answers my follow up messages. Such a miserable experience, I am furious.",Customer Support,Negative
+EVAL-5-0-Neutral-0,Nobody at the contact centre answers my follow up messages. I would like to know what happens next.,Customer Support,Neutral
+EVAL-5-0-Neutral-1,Nobody at the contact centre answers my follow up messages. This is a request for clarification.,Customer Support,Neutral
+EVAL-5-1-Negative-0,An adviser marked my case solved before investigating. This has been awful; I regret trusting this service.,Customer Support,Negative
+EVAL-5-1-Negative-1,"An adviser marked my case solved before investigating. Such a miserable experience, I am furious.",Customer Support,Negative
+EVAL-5-1-Neutral-0,An adviser marked my case solved before investigating. I would like to know what happens next.,Customer Support,Neutral
+EVAL-5-1-Neutral-1,An adviser marked my case solved before investigating. This is a request for clarification.,Customer Support,Neutral
+EVAL-5-2-Negative-0,I waited on the customer helpline and was disconnected. This has been awful; I regret trusting this service.,Customer Support,Negative
+EVAL-5-2-Negative-1,"I waited on the customer helpline and was disconnected. Such a miserable experience, I am furious.",Customer Support,Negative
+EVAL-5-2-Neutral-0,I waited on the customer helpline and was disconnected. I would like to know what happens next.,Customer Support,Neutral
+EVAL-5-2-Neutral-1,I waited on the customer helpline and was disconnected. This is a request for clarification.,Customer Support,Neutral
+EVAL-5-3-Positive-0,The helpdesk adviser explained everything patiently. Delighted with how well everything went.,Customer Support,Positive
+EVAL-5-3-Positive-1,The helpdesk adviser explained everything patiently. Wonderful assistance; you made my day.,Customer Support,Positive
+EVAL-6-0-Negative-0,A stranger used my credentials to withdraw my savings. This has been awful; I regret trusting this service.,Fraud & Security,Negative
+EVAL-6-0-Negative-1,"A stranger used my credentials to withdraw my savings. Such a miserable experience, I am furious.",Fraud & Security,Negative
+EVAL-6-0-Neutral-0,A stranger used my credentials to withdraw my savings. I would like to know what happens next.,Fraud & Security,Neutral
+EVAL-6-0-Neutral-1,A stranger used my credentials to withdraw my savings. This is a request for clarification.,Fraud & Security,Neutral
+EVAL-6-1-Negative-0,I spotted a debit from an unknown location and fear identity theft. This has been awful; I regret trusting this service.,Fraud & Security,Negative
+EVAL-6-1-Negative-1,"I spotted a debit from an unknown location and fear identity theft. Such a miserable experience, I am furious.",Fraud & Security,Negative
+EVAL-6-1-Neutral-0,I spotted a debit from an unknown location and fear identity theft. I would like to know what happens next.,Fraud & Security,Neutral
+EVAL-6-1-Neutral-1,I spotted a debit from an unknown location and fear identity theft. This is a request for clarification.,Fraud & Security,Neutral
+EVAL-6-2-Negative-0,A caller impersonating the bank persuaded me to share a code. This has been awful; I regret trusting this service.,Fraud & Security,Negative
+EVAL-6-2-Negative-1,"A caller impersonating the bank persuaded me to share a code. Such a miserable experience, I am furious.",Fraud & Security,Negative
+EVAL-6-2-Neutral-0,A caller impersonating the bank persuaded me to share a code. I would like to know what happens next.,Fraud & Security,Neutral
+EVAL-6-2-Neutral-1,A caller impersonating the bank persuaded me to share a code. This is a request for clarification.,Fraud & Security,Neutral
+EVAL-6-3-Positive-0,The scam alert prevented an unauthorized withdrawal. Delighted with how well everything went.,Fraud & Security,Positive
+EVAL-6-3-Positive-1,The scam alert prevented an unauthorized withdrawal. Wonderful assistance; you made my day.,Fraud & Security,Positive
+EVAL-7-0-Negative-0,The cash machine outside the branch has no printed slips. This has been awful; I regret trusting this service.,Other,Negative
+EVAL-7-0-Negative-1,"The cash machine outside the branch has no printed slips. Such a miserable experience, I am furious.",Other,Negative
+EVAL-7-0-Neutral-0,The cash machine outside the branch has no printed slips. I would like to know what happens next.,Other,Neutral
+EVAL-7-0-Neutral-1,The cash machine outside the branch has no printed slips. This is a request for clarification.,Other,Neutral
+EVAL-7-1-Negative-0,Wheelchair access at the local office could be improved. This has been awful; I regret trusting this service.,Other,Negative
+EVAL-7-1-Negative-1,"Wheelchair access at the local office could be improved. Such a miserable experience, I am furious.",Other,Negative
+EVAL-7-1-Neutral-0,Wheelchair access at the local office could be improved. I would like to know what happens next.,Other,Neutral
+EVAL-7-1-Neutral-1,Wheelchair access at the local office could be improved. This is a request for clarification.,Other,Neutral
+EVAL-7-2-Negative-0,I would like a branch closer to our village. This has been awful; I regret trusting this service.,Other,Negative
+EVAL-7-2-Negative-1,"I would like a branch closer to our village. Such a miserable experience, I am furious.",Other,Negative
+EVAL-7-2-Neutral-0,I would like a branch closer to our village. I would like to know what happens next.,Other,Neutral
+EVAL-7-2-Neutral-1,I would like a branch closer to our village. This is a request for clarification.,Other,Neutral
+EVAL-7-3-Positive-0,The branch receptionist made my visit easy. Delighted with how well everything went.,Other,Positive
+EVAL-7-3-Positive-1,The branch receptionist made my visit easy. Wonderful assistance; you made my day.,Other,Positive

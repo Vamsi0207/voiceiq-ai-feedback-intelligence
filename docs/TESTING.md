@@ -1,0 +1,4 @@
+# Verification strategy
+Backend pytest covers CSV schema, bad rows, duplicates, atomic persistence, genuine trained classification, urgency, sentiment, grouping, filters, pagination, analytics, jobs and grounded provider fallback. Use isolated temporary SQLite files. Frontend Vitest/Testing Library tests navigation, dashboard data/error states, filtering, imports and insights. Playwright exercises the real Vite/FastAPI HTTP flow.
+
+Required: backend tests, frontend tests, TypeScript/production build, held-out evaluation, real HTTP import/process/analytics workflow. Browser checks are attempted where runtime is available. Live provider checks require a configured credential and compatible model. Mocked adapter tests validate contracts and failures but do not establish account access. Actual results are recorded after execution in docs/VERIFICATION.md.
